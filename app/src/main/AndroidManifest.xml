@@ -14,13 +14,13 @@
             android:label="@string/app_name"
             android:configChanges="orientation|screenSize|keyboardHidden">
 
-            <!-- 앱 아이콘으로 실행 -->
+            <!-- app icon launch -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <!-- .hwp / .hwpx 알려진 MIME 타입으로 열기 -->
+            <!-- open by known MIME types (.hwp / .hwpx) -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -30,11 +30,17 @@
                 <data android:mimeType="application/x-hwp" />
                 <data android:mimeType="application/haansofthwp" />
                 <data android:mimeType="application/vnd.hancom.hwp" />
-                <data android:mimeType="application/vnd.hancom.hwpx" />
                 <data android:mimeType="application/hwp" />
+                <data android:mimeType="application/vnd.hancom.hwpx" />
+                <data android:mimeType="application/haansofthwpx" />
+                <data android:mimeType="application/x-hwpx" />
+                <data android:mimeType="application/hwpx" />
+                <data android:mimeType="application/hwp+zip" />
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/x-zip-compressed" />
             </intent-filter>
 
-            <!-- 확장자 기반(콘텐츠 URI, MIME 미상일 때) -->
+            <!-- extension-based (content URI, unknown MIME) -->
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -45,11 +51,17 @@
                 <data android:mimeType="*/*" />
                 <data android:pathPattern=".*\\.hwp" />
                 <data android:pathPattern=".*\\.hwpx" />
+                <data android:pathPattern=".*\\.HWP" />
+                <data android:pathPattern=".*\\.HWPX" />
                 <data android:pathPattern=".*\\..*\\.hwp" />
                 <data android:pathPattern=".*\\..*\\.hwpx" />
+                <data android:pathPattern=".*\\..*\\..*\\.hwp" />
+                <data android:pathPattern=".*\\..*\\..*\\.hwpx" />
+                <data android:pathSuffix=".hwp" />
+                <data android:pathSuffix=".hwpx" />
             </intent-filter>
 
-            <!-- 공유(다른 앱에서 보내기) -->
+            <!-- share (SEND from other apps) -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -57,6 +69,10 @@
                 <data android:mimeType="application/haansofthwp" />
                 <data android:mimeType="application/vnd.hancom.hwp" />
                 <data android:mimeType="application/vnd.hancom.hwpx" />
+                <data android:mimeType="application/haansofthwpx" />
+                <data android:mimeType="application/hwp+zip" />
+                <data android:mimeType="application/zip" />
+                <data android:mimeType="application/octet-stream" />
             </intent-filter>
         </activity>
     </application>
