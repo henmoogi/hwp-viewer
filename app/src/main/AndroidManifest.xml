@@ -38,6 +38,9 @@
                 <data android:mimeType="application/hwp+zip" />
                 <data android:mimeType="application/zip" />
                 <data android:mimeType="application/x-zip-compressed" />
+                <!-- Google Drive etc. pass unknown files as octet-stream with no path extension -->
+                <data android:mimeType="application/octet-stream" />
+                <data android:mimeType="application/binary" />
             </intent-filter>
 
             <!-- extension-based (content URI, unknown MIME) -->
