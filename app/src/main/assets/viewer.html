@@ -229,14 +229,17 @@ function readHWPX(buf){
   const names=Object.keys(zip).filter(n=>/Contents\/section\d+\.xml$/i.test(n))
     .sort((a,b)=>(+a.match(/(\d+)\.xml/)[1])-(+b.match(/(\d+)\.xml/)[1]));
   const kids=(el,name)=>[...el.children].filter(c=>c.localName===name);
-  const runText=p=>{let t="";for(const t2 of p.getElementsByTagName("*"))if(t2.localName==="t")t+=t2.textContent;return t.replace(/\s+/g," ").trim();};
+  // scope 안에서 tbl 조상이 있는지(=표 내부 요소인지) 판별
+  const inTbl=(el,scope)=>{for(let n=el.parentNode;n&&n!==scope;n=n.parentNode){if(n.localName==="tbl")return true;}return false;};
+  // 표 내부 텍스트는 제외하고 문단 자체 텍스트만 수집(중복 방지)
+  const runText=p=>{let t="";for(const t2 of p.getElementsByTagName("*"))if(t2.localName==="t"&&!inTbl(t2,p))t+=t2.textContent;return t.replace(/\s+/g," ").trim();};
   // hp:p / hp:tbl 이 섞여 나오는 컨테이너를 순서대로 블록화
   function blocksOf(container){
     const out=[];
     for(const el of container.children){
       if(el.localName==="p"){
-        // 문단 안에 표가 들어있을 수 있음(run > tbl)
-        const tbls=[...el.getElementsByTagName("*")].filter(x=>x.localName==="tbl");
+        // 문단 안에 표가 들어있을 수 있음(run > tbl) — 최상위 표만(중첩표는 tableOf가 재귀 처리)
+        const tbls=[...el.getElementsByTagName("*")].filter(x=>x.localName==="tbl"&&!inTbl(x,el));
         const t=runText(el);
         if(t) out.push({type:"p",text:t});
         for(const tb of tbls) out.push(tableOf(tb));
